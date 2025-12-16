@@ -4,6 +4,8 @@ import time
 Slots = 2
 File = "contatos.csv"
 
+Message = "da vaga para o treinamento Domínio SIEM é:"
+Message_end = "Ele/ela está na live?"
 
 VERDE = "\033[1;32m"
 RESET = "\033[0m"
@@ -24,7 +26,7 @@ def mascarar_email(email: str) -> str:
 
 def pergunta_esta_na_live() -> bool:
     while True:
-        resp = input(f"{AMARELO}Ele/ela está na live? (s/n): {RESET}").strip().lower()
+        resp = input(f"{AMARELO}{Message_end} (s/n): {RESET}").strip().lower()
         if resp in ("s", "sim", "y", "yes"):
             return True
         if resp in ("n", "nao", "não", "no"):
@@ -55,17 +57,17 @@ while Start <= Slots:
     email_sorteado = sorteado['Email'].values[0]
     email_mascarado = mascarar_email(email_sorteado)
 
-    print(f"{VERDE}~ ### O ganhador da {Start}ª vaga para o treinamento Domínio SIEM é:{RESET}")
+    print(f"{VERDE}~ ### O {Start}ª ganhador {Message}{RESET}")
     load_()
     time.sleep(1)
     print(f"{VERDE}{email_mascarado}{RESET}")
 
     if pergunta_esta_na_live():
-        print(f"{VERDE}✅ Confirmado! Vaga {Start} preenchida.{RESET}\n")
+        print(f"{VERDE}✅ Confirmado!{RESET}\n")
         df = df.drop(index=idx)
         Start += 1
         time.sleep(2)
     else:
-        print(f"{VERMELHO}❌ Não está na live. Sorteando outro...{RESET}\n")
+        print(f"{VERMELHO}❌ Sorteando outro...{RESET}\n")
         df = df.drop(index=idx)
         time.sleep(2)
